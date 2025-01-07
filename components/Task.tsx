@@ -1,20 +1,32 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { FontAwesome6 } from "@expo/vector-icons";
-const Task = () => {
+const Task = ({ text }) => {
   const [edit, setEdit] = useState(false);
+  const [inputText, setInputText] = useState(text);
+  console.log(inputText);
+  console.log("above is the bug");
   return (
     <View style={taskStyle.container}>
       {edit ? (
-        <TextInput />
+        <TextInput
+          style={taskStyle.textContainer}
+          editable
+          multiline
+          numberOfLines={3}
+          defaultValue={inputText}
+          onChangeText={(newText) => setInputText(newText)}
+        />
       ) : (
-        <Text style={taskStyle.text}>God is love and God is merciful</Text>
+        <Text style={taskStyle.text}>{inputText}</Text>
       )}
-      <View style={taskStyle.featureCotainfer}>
-        <FontAwesome name="check" size={26} color="black" />
-        <FontAwesome name="edit" size={26} color="black" />
-        <FontAwesome6 name="xmark" size={26} color="black" />
+      <View style={taskStyle.featureContainer}>
+        <FontAwesome name="check" size={24} color="black" />
+        <Pressable onPress={() => setEdit(!edit)}>
+          <FontAwesome name="edit" size={24} color="black" />
+        </Pressable>
+        <FontAwesome6 name="xmark" size={24} color="black" />
       </View>
     </View>
   );
@@ -22,27 +34,31 @@ const Task = () => {
 
 const taskStyle = StyleSheet.create({
   container: {
+    borderRadius: 8,
     borderWidth: 2,
     borderColor: "borderColor",
     height: 100,
     justifyContent: "space-between",
-    padding: 4,
+    padding: 12,
+    marginBottom: 8,
   },
 
   textContainer: {
-    width: "50%",
+    height: "64%",
+    borderColor: "black",
+    borderWidth: 2,
+    marginBottom: 4,
   },
   text: {
     fontSize: 18,
   },
 
-  featureCotainfer: {
+  featureContainer: {
     width: "30%",
     flexDirection: "row",
-    borderWidth: 2,
-    borderColor: "black",
     justifyContent: "space-between",
     alignSelf: "flex-end",
+    alignItems: "center",
   },
 });
 
